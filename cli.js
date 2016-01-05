@@ -1,3 +1,4 @@
 #!/usr/bin/env node
-var create = require("./create");
-create();
+var commandStr = "./" + process.argv[2];
+var command = require(commandStr);
+command();

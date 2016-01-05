@@ -47,8 +47,8 @@ function unzip(callback) {
 }
 
 function createTemplate(callback) {
-    
-    var currentDirFiles = fs.readdirSync(".")
+
+    var currentDirFiles = fs.readdirSync(process.cwd())
     if (currentDirFiles.length > 0){
         throw new Error("current dir must be empty :" + currentDirFiles);
     }
@@ -57,8 +57,6 @@ function createTemplate(callback) {
     var templateDir = path.join(__dirname, "template");
     fsutil.copy(templateDir, dir);
     callback();
-
-
 
 }
 
