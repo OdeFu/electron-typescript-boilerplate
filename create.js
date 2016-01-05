@@ -5,10 +5,22 @@ var os = require("os");
 var path = require("path")
 var extract = require('extract-zip');
 var fs = require("fs")
+var npm = require("npm");
+var fsutil = require("./file-util");
 
 module.exports = function (opt) {
-    var project_dir = opt.project_dir;
-    fs.mkdirSync(project_dir);
+    var tasks = [
+        download,
+        unzip,
+        createTemplate,
+        load,
+        init
+    ]
+    async.series(tasks, function (error) {
+        if (error) {
+            throw error;
+        }
+    })
 }
 
 function load(callback) {
@@ -34,15 +46,19 @@ function unzip(callback) {
     }
 }
 
-var tasks = [
-    download,
-    unzip,
-    load,
-    init
-]
-
-async.series(tasks, function (error) {
-    if (error) {
-        throw error;
+function createTemplate(callback) {
+    
+    var currentDirFiles = fs.readdirSync(".")
+    if (currentDirFiles.length > 0){
+        throw new Error("current dir must be empty :" + currentDirFiles);
     }
-})
+    
+    var dir = ".";
+    var templateDir = path.join(__dirname, "template");
+    fsutil.copy(templateDir, dir);
+    callback();
+
+
+
+}
+
