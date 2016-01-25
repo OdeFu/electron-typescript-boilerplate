@@ -10,3 +10,10 @@ electron-cli create
 electron-cli run
 ```
 
+## TODO
+
+### Templates
+
+* empty
+* typescript
+* react-typescript
